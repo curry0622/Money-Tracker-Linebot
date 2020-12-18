@@ -88,12 +88,15 @@ def webhook_parser(webhook):
     return event, reply_token, user_id, message
 
 
+
 @app.route("/webhook", methods=["POST"])
 def webhook_handler():
     webhook = json.loads(request.data.decode("utf-8"))
     print(webhook)
-    event, reply_token, user_id, message = webhook_parser(webhook)
-    reponse = machine.advance(event)
+    if(len(webhook["events"]) > 0):
+        event, reply_token, user_id, message = webhook_parser(webhook)
+        reponse = machine.advance(event)
+
     '''
     if response == False:
         send_text_message(reply_token, "Failed")
