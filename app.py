@@ -14,22 +14,67 @@ from utils import send_text_message
 load_dotenv()
 
 
+# machine = TocMachine(
+#     states=["user", "state1", "state2", "state3"],
+#     transitions=[
+#         {
+#             "trigger": "advance",
+#             "source": "user",
+#             "dest": "state1",
+#             "conditions": "is_going_to_state1",
+#         },
+#         {
+#             "trigger": "advance",
+#             "source": "user",
+#             "dest": "state2",
+#             "conditions": "is_going_to_state2",
+#         },
+#         {
+#             "trigger": "advance",
+#             "source": "user",
+#             "dest": "state3",
+#             "conditions": "is_going_to_state3",
+#         },
+#         {"trigger": "go_back", "source": ["state1", "state2", "state3"], "dest": "user"},
+#     ],
+#     initial="user",
+#     auto_transitions=False,
+# )
+
 machine = TocMachine(
-    states=["user", "state1", "state2"],
+    states=["user", "check", "record", "action", "type", "value"],
     transitions=[
-        {
+		{
             "trigger": "advance",
             "source": "user",
-            "dest": "state1",
-            "conditions": "is_going_to_state1",
+            "dest": "check",
+            "conditions": "is_going_to_check",
         },
         {
             "trigger": "advance",
             "source": "user",
-            "dest": "state2",
-            "conditions": "is_going_to_state2",
+            "dest": "record",
+            "conditions": "is_going_to_record",
         },
-        {"trigger": "go_back", "source": ["state1", "state2"], "dest": "user"},
+		{
+            "trigger": "advance",
+            "source": "record",
+            "dest": "action",
+            "conditions": "is_going_to_action",
+        },
+		{
+            "trigger": "advance",
+            "source": "action",
+            "dest": "type",
+            "conditions": "is_going_to_type",
+        },
+		{
+            "trigger": "advance",
+            "source": "type",
+            "dest": "value",
+            "conditions": "is_going_to_value",
+        },
+        {"trigger": "go_back", "source": ["check", "value"], "dest": "user"},
     ],
     initial="user",
     auto_transitions=False,
@@ -50,6 +95,37 @@ if channel_access_token is None:
 
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
+
+
+
+def webhook_parser(webhook):
+    event = webhook["events"][0]
+    reply_token = event["replyToken"]
+    user_id = event["source"]["userId"]
+    message = event["message"]["text"]
+    return event, reply_token, user_id, message
+
+
+
+@app.route("/webhook", methods=["POST"])
+def webhook_handler():
+    webhook = json.loads(request.data.decode("utf-8"))
+    if(len(webhook["events"]) > 0):
+        event, reply_token, user_id, message = webhook_parser(webhook)
+        response = machine.advance(event)
+        # check if message is valid or not
+        if response == False:
+            if machine.state == 'user':
+                send_text_message(reply_token, "請輸入記帳或查詢")
+            elif machine.state == 'record':
+                send_text_message(reply_token, "請輸入支出或收入")
+            elif machine.state == 'action':
+                send_text_message(reply_token, "請輸入種類\n食、衣、住、行、育、樂")
+            elif machine.state == 'type':
+                send_text_message(reply_token, "請輸入金額")
+
+
+    return "OK"
 
 
 @app.route("/callback", methods=["POST"])
@@ -75,30 +151,6 @@ def callback():
         line_bot_api.reply_message(
             event.reply_token, TextSendMessage(text=event.message.text)
         )
-
-    return "OK"
-
-
-def webhook_parser(webhook):
-    event = webhook["events"][0]
-    reply_token = event["replyToken"]
-    user_id = event["source"]["userId"]
-    message = event["message"]["text"]
-    return event, reply_token, user_id, message
-
-
-
-@app.route("/webhook", methods=["POST"])
-def webhook_handler():
-    webhook = json.loads(request.data.decode("utf-8"))
-    print(webhook)
-    if(len(webhook["events"]) > 0):
-        event, reply_token, user_id, message = webhook_parser(webhook)
-        response = machine.advance(event)
-
-    # check if message is valid or not
-    if response == False:
-        send_text_message(reply_token, "請輸入正確格式")
 
     return "OK"
 
