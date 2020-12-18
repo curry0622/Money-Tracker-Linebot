@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 
 from flask import Flask, jsonify, request, abort, send_file
 from dotenv import load_dotenv
@@ -79,33 +80,26 @@ def callback():
     return "OK"
 
 
+def webhook_parser(webhook):
+    event = webhook["events"][0]
+    reply_token = event["replyToken"]
+    user_id = event["source"]["userId"]
+    message = event["message"]["text"]
+    return event, reply_token, user_id, message
+
+
 @app.route("/webhook", methods=["POST"])
 def webhook_handler():
-    signature = request.headers["X-Line-Signature"]
-    # get request body as text
-    body = request.get_data(as_text=True)
-    app.logger.info(f"Request body: {body}")
-
-    # parse webhook body
-    try:
-        events = parser.parse(body, signature)
-    except InvalidSignatureError:
-        abort(400)
-
-    # if event is MessageEvent and message is TextMessage, then echo text
-    for event in events:
-        if not isinstance(event, MessageEvent):
-            continue
-        if not isinstance(event.message, TextMessage):
-            continue
-        if not isinstance(event.message.text, str):
-            continue
-        print(f"\nFSM STATE: {machine.state}")
-        print(f"REQUEST BODY: \n{body}")
-        response = machine.advance(event)
-        if response == False:
-            send_text_message(event.reply_token, event.message.text)
-
+    webhook = json.loads(request.data.decode("utf-8"))
+    print(webhook)
+    event, reply_token, user_id, message = webhook_parser(webhook)
+    reponse = machine.advance(event)
+    '''
+    if response == False:
+        send_text_message(reply_token, "Failed")
+    else:
+        send_text_message(reply_token, "success")
+    '''
     return "OK"
 
 
