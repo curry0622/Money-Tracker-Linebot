@@ -94,14 +94,12 @@ def webhook_handler():
     print(webhook)
     if(len(webhook["events"]) > 0):
         event, reply_token, user_id, message = webhook_parser(webhook)
-        reponse = machine.advance(event)
+        response = machine.advance(event)
 
-    '''
+    # check if message is valid or not
     if response == False:
-        send_text_message(reply_token, "Failed")
-    else:
-        send_text_message(reply_token, "success")
-    '''
+        send_text_message(reply_token, "請輸入正確格式")
+
     return "OK"
 
 
