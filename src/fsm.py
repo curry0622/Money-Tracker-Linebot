@@ -2,10 +2,9 @@ import datetime
 
 # from transitions.extensions import GraphMachine
 from transitions import Machine
-from utils import send_text_message
 
+from utils import send_text_message, send_action_menu
 from database import Database
-
 class TocMachine(object):
     def __init__(self, **machine_configs):
         self.machine = Machine(model=self, **machine_configs)
@@ -56,7 +55,7 @@ class TocMachine(object):
         self.db = Database(event["source"]["userId"])
         self.db.insert((None, "default", "default", 0, "default", "default"))
         reply_token = event["replyToken"]
-        send_text_message(reply_token, "請輸入支出或收入")
+        send_action_menu(reply_token)
 
     def on_enter_action(self, event):
         # event["message"]["text"] = 支出

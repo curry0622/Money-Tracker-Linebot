@@ -9,7 +9,7 @@ from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 from fsm import TocMachine
-from utils import send_text_message
+from utils import send_text_message, send_main_menu
 
 load_dotenv()
 
@@ -94,7 +94,7 @@ def webhook_handler():
         # check if message is valid or not
         if response == False:
             if machine.state == 'user':
-                send_text_message(reply_token, "請輸入記帳或查詢")
+                send_main_menu(reply_token)
             elif machine.state == 'record':
                 send_text_message(reply_token, "請輸入支出或收入")
             elif machine.state == 'action':
