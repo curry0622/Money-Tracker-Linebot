@@ -3,7 +3,7 @@ import datetime
 # from transitions.extensions import GraphMachine
 from transitions import Machine
 
-from utils import send_text_message, send_action_menu
+from utils import send_text_message, send_action_menu, send_expense_type_menu
 from database import Database
 class TocMachine(object):
     def __init__(self, **machine_configs):
@@ -61,7 +61,7 @@ class TocMachine(object):
         # event["message"]["text"] = 支出
         self.db.updateOneColInLastRow("action", event["message"]["text"])
         reply_token = event["replyToken"]
-        send_text_message(reply_token, "請輸入種類\n食、衣、住、行、育、樂")
+        send_expense_type_menu(reply_token)
 
 
     def on_enter_type(self, event):
