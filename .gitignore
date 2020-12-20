@@ -111,3 +111,6 @@ venv.bak/
 
 # ngrok
 ngrok.exe
+
+# db directory
+db/

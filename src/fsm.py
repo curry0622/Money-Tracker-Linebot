@@ -1,18 +1,17 @@
+import datetime
+
 # from transitions.extensions import GraphMachine
 from transitions import Machine
 from utils import send_text_message
 
-#  global variables
-totalValue = 0
-action = "default" # expense, income
-type = "default" # food, cloth, house, transport, educate, entertain
-value = 0
+from database import Database
 
 class TocMachine(object):
     def __init__(self, **machine_configs):
         self.machine = Machine(model=self, **machine_configs)
 
-    # is going to state
+    ''' is going to state '''
+
     def is_going_to_check(self, event):
         text = event["message"]["text"]
         return text == "查詢"
@@ -30,110 +29,59 @@ class TocMachine(object):
         return text == "食" or text == "衣" or text == "住" or text == "行" or text == "育" or text == "樂"
 
     def is_going_to_value(self, event):
-        # text = event["message"]["text"]
         return True
 
-    # on enter state
-    def on_enter_check(self, event):
-        print("I'm entering check")
+    def is_going_to_description(self, event):
+        return True
 
+    ''' on enter state '''
+
+    def on_enter_check(self, event):
+        self.db = Database(event["source"]["userId"])
+        lastRow = self.db.returnLastRow()
         reply_token = event["replyToken"]
-        send_text_message(reply_token, "查詢失敗")
+        send_text_message(reply_token,
+            "[ 最後一筆紀錄 ]\n"
+            + "編號: " + str(lastRow[0]) + "\n"
+            + "收支: " + str(lastRow[1]) + "\n"
+            + "種類: " + str(lastRow[2]) + "\n"
+            + "金額: " + str(lastRow[3]) + "\n"
+            + "註解: " + str(lastRow[4]) + "\n"
+            + "時間: " + str(lastRow[5])
+        )
         self.go_back()
 
     def on_enter_record(self, event):
-        # 記帳
-        print("I'm entering record")
-
+        # event["message"]["text"] = 記帳
+        self.db = Database(event["source"]["userId"])
+        self.db.insert((None, "default", "default", 0, "default", "default"))
         reply_token = event["replyToken"]
         send_text_message(reply_token, "請輸入支出或收入")
-        print(event["message"]["text"])
 
     def on_enter_action(self, event):
-        # 支出
-        # print("I'm entering action")
-        global action
-        action = event["message"]["text"]
+        # event["message"]["text"] = 支出
+        self.db.updateOneColInLastRow("action", event["message"]["text"])
         reply_token = event["replyToken"]
         send_text_message(reply_token, "請輸入種類\n食、衣、住、行、育、樂")
-        print(event["message"]["text"])
+
 
     def on_enter_type(self, event):
-        # 食
-        # print("I'm entering type")
-        global type
-        type = event["message"]["text"]
+        # event["message"]["text"] = 食
+        self.db.updateOneColInLastRow("type", event["message"]["text"])
         reply_token = event["replyToken"]
         send_text_message(reply_token, "請輸入金額")
-        print(event["message"]["text"])
 
     def on_enter_value(self, event):
-        # 金額
-        # print("I'm entering value")
-        global value
-        value = int(event["message"]["text"])
-        global action, totalValue
-        if action == "支出":
-            totalValue -= value
-        elif action == "收入":
-            totalValue += value
-        # if type == "expense":
-        #     totalValue -= value
-        # elif type == "income":
-        #     totalValue += value
+        # event["message"]["text"] = 金額
+        self.db.updateOneColInLastRow("value", event["message"]["text"])
+        self.db.updateOneColInLastRow("description", "No description")
         reply_token = event["replyToken"]
-        send_text_message(reply_token, "已紀錄\n餘額: " + str(totalValue))
-        print(event["message"]["text"])
+        send_text_message(reply_token, "再為這筆記錄增添一些註解吧~")
+
+    def on_enter_description(self, event):
+        self.db.updateOneColInLastRow("description", event["message"]["text"])
+        formatedTime = datetime.datetime.fromtimestamp(event["timestamp"] / 1000).strftime("%Y/%m/%d %H:%M:%S")
+        self.db.updateOneColInLastRow("time", formatedTime)
+        reply_token = event["replyToken"]
+        send_text_message(reply_token, "已紀錄")
         self.go_back()
-
-# class TocMachine(object):
-#     def __init__(self, **machine_configs):
-#         self.machine = Machine(model=self, **machine_configs)
-
-#     def is_going_to_state1(self, event):
-#         # text = event.message.text
-#         text = event["message"]["text"]
-#         return text.lower() == "go to state1"
-
-#     def is_going_to_state2(self, event):
-#         # text = event.message.text
-#         text = event["message"]["text"]
-#         return text.lower() == "go to state2"
-
-#     def is_going_to_state3(self, event):
-#         # text = event.message.text
-#         text = event["message"]["text"]
-#         return text.lower() == "go to state3"
-
-#     def on_enter_state1(self, event):
-#         print("I'm entering state1")
-
-#         # reply_token = event.reply_token
-#         reply_token = event["replyToken"]
-#         send_text_message(reply_token, "Trigger state1")
-#         self.go_back()
-
-#     def on_exit_state1(self):
-#         print("Leaving state1")
-
-#     def on_enter_state2(self, event):
-#         print("I'm entering state2")
-
-#         # reply_token = event.reply_token
-#         reply_token = event["replyToken"]
-#         send_text_message(reply_token, "Trigger state2")
-#         self.go_back()
-
-#     def on_exit_state2(self):
-#         print("Leaving state2")
-
-#     def on_enter_state3(self, event):
-#         print("I'm entering state3")
-
-#         # reply_token = event.reply_token
-#         reply_token = event["replyToken"]
-#         send_text_message(reply_token, "Trigger state3")
-#         self.go_back()
-
-#     def on_exit_state3(self):
-#         print("Leaving state3")
