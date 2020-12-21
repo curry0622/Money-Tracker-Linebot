@@ -16,7 +16,7 @@ class TocMachine(object):
         return text == "查詢"
 
     def is_going_to_dateInfo(self, event):
-        text = event["message"]["text"]
+        text = event["message"]["text"] if "message" in event else event["postback"]["params"]["date"]
         try:
             datetime.datetime.strptime(text, "%Y-%m-%d")
             return True
@@ -50,7 +50,7 @@ class TocMachine(object):
         send_check_menu(reply_token)
 
     def on_enter_dateInfo(self, event):
-        dateStr = event["message"]["text"]
+        dateStr = event["message"]["text"] if "message" in event else event["postback"]["params"]["date"]
         dateInfoStr = self.db.getDateInfo(dateStr)
         reply_token = event["replyToken"]
         send_text_message(reply_token, dateInfoStr)

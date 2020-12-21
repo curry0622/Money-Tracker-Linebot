@@ -85,9 +85,7 @@ parser = WebhookParser(channel_secret)
 def webhook_parser(webhook):
     event = webhook["events"][0]
     reply_token = event["replyToken"]
-    user_id = event["source"]["userId"]
-    message = event["message"]["text"]
-    return event, reply_token, user_id, message
+    return event, reply_token
 
 
 
@@ -95,7 +93,7 @@ def webhook_parser(webhook):
 def webhook_handler():
     webhook = json.loads(request.data.decode("utf-8"))
     if(len(webhook["events"]) > 0):
-        event, reply_token, user_id, message = webhook_parser(webhook)
+        event, reply_token = webhook_parser(webhook)
         response = machine.advance(event)
         # check if message is valid or not
         if response == False:
