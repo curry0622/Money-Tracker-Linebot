@@ -58,7 +58,7 @@ class Database:
         expense = 0
         income = 0
         for info in dateInfo:
-            dateInfoStr += "===============\n"
+            dateInfoStr += "---------------\n"
             dateInfoStr += "編號: " + str(index) + "\n"
             dateInfoStr += "收支: " + info[1] + "\n"
             dateInfoStr += "種類: " + info[2] + "\n"
@@ -69,7 +69,7 @@ class Database:
                 expense += info[3]
             elif(info[1] == "收入"):
                 income += info[3]
-        dateInfoStr += "===============\n"
+        dateInfoStr += "---------------\n"
         dateInfoStr += "總支出: " + str(expense) + "\n"
         dateInfoStr += "總收入: " + str(income)
         return dateInfoStr

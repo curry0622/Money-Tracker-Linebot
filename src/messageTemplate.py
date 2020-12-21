@@ -415,6 +415,120 @@ def checkMenu():
                     "layout": "vertical",
                     "contents": []
                 }
+            },
+            {
+                "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/mPRMiHT.jpg",
+                    "size": "full",
+                    "aspectRatio": "20:13",
+                    "aspectMode": "cover",
+                    "action": {
+                        "type": "uri",
+                        "uri": "http://linecorp.com/"
+                    }
+                },
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "🐹Line 記帳包 選單三",
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "margin": "lg",
+                            "spacing": "sm",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "這裡可以查看這個月的收支狀況",
+                                    "color": "#aaaaaa",
+                                    "size": "sm",
+                                    "flex": 1
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "請選擇想查看的種類喔~",
+                                    "color": "#aaaaaa",
+                                    "size": "sm",
+                                    "flex": 1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "button",
+                                    "style": "secondary",
+                                    "height": "sm",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "收入結構",
+                                        "text": "收入結構"
+                                    },
+                                    "color": "#ffe89e"
+                                },
+                                {
+                                    "type": "button",
+                                    "style": "secondary",
+                                    "height": "sm",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "支出結構",
+                                        "text": "支出結構"
+                                    },
+                                    "color": "#ffe89e"
+                                }
+                            ],
+                            "spacing": "sm"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "button",
+                                    "style": "secondary",
+                                    "height": "sm",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "收支比例",
+                                        "text": "收支比例"
+                                    },
+                                    "color": "#ffe89e"
+                                },
+                                {
+                                    "type": "button",
+                                    "style": "secondary",
+                                    "height": "sm",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "各項金額",
+                                        "text": "各項金額"
+                                    },
+                                    "color": "#ffe89e"
+                                }
+                            ],
+                            "spacing": "sm"
+                        }
+                    ],
+                    "flex": 0
+                }
             }
         ]
     }
