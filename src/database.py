@@ -40,7 +40,7 @@ class Database:
         self.cur.execute(updateStr, (data, lastId))
         self.con.commit()
 
-    def getCurrentBalance(self):
+    def getBalance(self):
         balance = 0
         all = self.returnAll()
         for row in all:
@@ -49,6 +49,17 @@ class Database:
             elif row[1] == "支出":
                 balance -= row[3]
         return balance
+
+    def getDateInfo(self, dateStr):
+        str = "SELECT * FROM " + self.userId + " WHERE time = ?"
+        dateInfo = self.cur.execute(str, (date, ))
+        result = "[ " + dateStr + " ]\n"
+        for info in dateInfo:
+            result += "************\n"
+            result += "收支: " + row[1] + "\n"
+            result += "種類: " + row[2] + "\n"
+            result += "金額: " + row[3] + "\n"
+            result += "註解: " + row[4] + "\n"
 
 
 if __name__ == "__main__":

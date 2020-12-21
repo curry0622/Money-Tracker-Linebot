@@ -74,5 +74,6 @@ class TocMachine(object):
         formatedTime = datetime.datetime.fromtimestamp(event["timestamp"] / 1000).strftime("%Y-%m-%d")
         self.db.updateOneColInLastRow("time", formatedTime)
         reply_token = event["replyToken"]
-        send_text_message(reply_token, "已紀錄")
+        balance = self.db.getBalance()
+        send_text_message(reply_token, "目前結餘: " + str(balance))
         self.go_back()
