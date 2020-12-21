@@ -14,13 +14,19 @@ from utils import send_text_message, send_main_menu
 load_dotenv()
 
 machine = TocMachine(
-    states=["user", "check", "record", "action", "type", "value", "description"],
+    states=["user", "check", "dateInfo", "record", "action", "type", "value", "description"],
     transitions=[
 		{
             "trigger": "advance",
             "source": "user",
             "dest": "check",
             "conditions": "is_going_to_check",
+        },
+        {
+            "trigger": "advance",
+            "source": "check",
+            "dest": "dateInfo",
+            "conditions": "is_going_to_dateInfo",
         },
         {
             "trigger": "advance",
@@ -52,7 +58,7 @@ machine = TocMachine(
             "dest": "description",
             "conditions": "is_going_to_description",
         },
-        {"trigger": "go_back", "source": ["check", "description"], "dest": "user"},
+        {"trigger": "go_back", "source": ["dateInfo", "description"], "dest": "user"},
     ],
     initial="user",
     auto_transitions=False,

@@ -15,6 +15,14 @@ class TocMachine(object):
         text = event["message"]["text"]
         return text == "查詢"
 
+    def is_going_to_dateInfo(self, event):
+        text = event["message"]["text"]
+        try:
+            datetime.datetime.strptime(text, "%Y-%m-%d")
+            return True
+        except ValueError:
+            return False
+
     def is_going_to_record(self, event):
         text = event["message"]["text"]
         return text == "記帳"
@@ -40,6 +48,12 @@ class TocMachine(object):
         lastRow = self.db.returnLastRow()
         reply_token = event["replyToken"]
         send_check_menu(reply_token)
+
+    def on_enter_dateInfo(self, event):
+        dateStr = event["message"]["text"]
+        dateInfoStr = self.db.getDateInfo(dateStr)
+        reply_token = event["replyToken"]
+        send_text_message(reply_token, dateInfoStr)
         self.go_back()
 
     def on_enter_record(self, event):

@@ -51,15 +51,21 @@ class Database:
         return balance
 
     def getDateInfo(self, dateStr):
-        str = "SELECT * FROM " + self.userId + " WHERE time = ?"
-        dateInfo = self.cur.execute(str, (date, ))
-        result = "[ " + dateStr + " ]\n"
+        getStr = "SELECT * FROM " + self.userId + " WHERE time = ?"
+        dateInfo = self.cur.execute(getStr, (dateStr, )).fetchall()
+        dateInfoStr = "[ " + dateStr + " ]\n"
+        index = 1
         for info in dateInfo:
-            result += "************\n"
-            result += "收支: " + row[1] + "\n"
-            result += "種類: " + row[2] + "\n"
-            result += "金額: " + row[3] + "\n"
-            result += "註解: " + row[4] + "\n"
+            dateInfoStr += "===============\n"
+            dateInfoStr += "編號: " + str(index) + "\n"
+            dateInfoStr += "收支: " + info[1] + "\n"
+            dateInfoStr += "種類: " + info[2] + "\n"
+            dateInfoStr += "金額: " + str(info[3]) + "\n"
+            dateInfoStr += "註解: " + info[4]
+            if(index != len(dateInfo)):
+                dateInfoStr += "\n"
+            index += 1
+        return dateInfoStr
 
 
 if __name__ == "__main__":
