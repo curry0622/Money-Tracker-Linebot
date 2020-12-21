@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 
 class Database:
@@ -38,6 +39,16 @@ class Database:
         updateStr = "UPDATE " + self.userId + " SET " + col + " = ? WHERE id = ?"
         self.cur.execute(updateStr, (data, lastId))
         self.con.commit()
+
+    def getCurrentBalance(self):
+        balance = 0
+        all = self.returnAll()
+        for row in all:
+            if row[1] == "收入":
+                balance += row[3]
+            elif row[1] == "支出":
+                balance -= row[3]
+        return balance
 
 
 if __name__ == "__main__":

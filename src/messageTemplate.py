@@ -17,7 +17,7 @@ mainMenu = {
         "contents": [
             {
                 "type": "text",
-                "text": "🐹LINE 記帳包 主選單",
+                "text": "🐹Line 記帳包 主選單",
                 "weight": "bold",
                 "size": "xl",
                 "style": "normal"
@@ -177,7 +177,7 @@ expenseTypeMenu = {
         "contents": [
             {
                 "type": "text",
-                "text": "🐹LINE 記帳包 種類選單",
+                "text": "🐹Line 記帳包 種類選單",
                 "weight": "bold",
                 "size": "xl",
                 "style": "normal"
@@ -299,4 +299,115 @@ expenseTypeMenu = {
             "separator": True
         }
     }
+}
+
+checkMenu = {
+    "type": "carousel",
+    "contents": [
+        {
+            "type": "bubble",
+            "hero": {
+                "type": "image",
+                "url": "https://i.imgur.com/LaVF65q.jpg",
+                "size": "full",
+                "aspectRatio": "20:13",
+                "aspectMode": "cover",
+                "action": {
+                    "type": "uri",
+                    "uri": "http://linecorp.com/"
+                }
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "🐹Line 記帳包 選單一",
+                        "weight": "bold",
+                        "size": "xl"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "margin": "lg",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "這裡可以查看單日的收支狀況",
+                                "color": "#aaaaaa",
+                                "size": "sm",
+                                "flex": 1
+                            },
+                            {
+                                "type": "text",
+                                "text": "請選擇想查看的日期喔~",
+                                "color": "#aaaaaa",
+                                "size": "sm",
+                                "flex": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                            {
+                                "type": "button",
+                                "style": "secondary",
+                                "height": "sm",
+                                "action": {
+                                    "type": "message",
+                                    "label": "昨日收支",
+                                    "text": "昨日"
+                                },
+                                "color": "#ffe89e"
+                            },
+                            {
+                                "type": "button",
+                                "style": "secondary",
+                                "height": "sm",
+                                "action": {
+                                    "type": "message",
+                                    "label": "今日收支",
+                                    "text": "今日收支"
+                                },
+                                "color": "#ffe89e"
+                            }
+                        ],
+                        "spacing": "sm"
+                    },
+                    {
+                        "type": "button",
+                        "style": "secondary",
+                        "height": "sm",
+                        "action": {
+                            "type": "datetimepicker",
+                            "label": "選擇日期",
+                            "data": "date",
+                            "mode": "date"
+                        },
+                        "color": "#ffe89e"
+                    }
+                ],
+                "flex": 0
+            }
+        },
+        {
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": []
+            }
+        }
+    ]
 }

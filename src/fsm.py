@@ -3,7 +3,7 @@ import datetime
 # from transitions.extensions import GraphMachine
 from transitions import Machine
 
-from utils import send_text_message, send_action_menu, send_expense_type_menu
+from utils import send_text_message, send_action_menu, send_expense_type_menu, send_check_menu
 from database import Database
 class TocMachine(object):
     def __init__(self, **machine_configs):
@@ -39,15 +39,7 @@ class TocMachine(object):
         self.db = Database(event["source"]["userId"])
         lastRow = self.db.returnLastRow()
         reply_token = event["replyToken"]
-        send_text_message(reply_token,
-            "[ 最後一筆紀錄 ]\n"
-            + "編號: " + str(lastRow[0]) + "\n"
-            + "收支: " + str(lastRow[1]) + "\n"
-            + "種類: " + str(lastRow[2]) + "\n"
-            + "金額: " + str(lastRow[3]) + "\n"
-            + "註解: " + str(lastRow[4]) + "\n"
-            + "時間: " + str(lastRow[5])
-        )
+        send_check_menu(reply_token)
         self.go_back()
 
     def on_enter_record(self, event):
@@ -79,7 +71,7 @@ class TocMachine(object):
 
     def on_enter_description(self, event):
         self.db.updateOneColInLastRow("description", event["message"]["text"])
-        formatedTime = datetime.datetime.fromtimestamp(event["timestamp"] / 1000).strftime("%Y/%m/%d %H:%M:%S")
+        formatedTime = datetime.datetime.fromtimestamp(event["timestamp"] / 1000).strftime("%Y-%m-%d")
         self.db.updateOneColInLastRow("time", formatedTime)
         reply_token = event["replyToken"]
         send_text_message(reply_token, "已紀錄")
