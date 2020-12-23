@@ -48,7 +48,6 @@ class TocMachine(object):
 
     def on_enter_check(self, event):
         self.db = Database(event["source"]["userId"])
-        lastRow = self.db.returnLastRow()
         reply_token = event["replyToken"]
         send_check_menu(reply_token)
 
@@ -65,7 +64,8 @@ class TocMachine(object):
     def on_enter_record(self, event):
         # event["message"]["text"] = 記帳
         self.db = Database(event["source"]["userId"])
-        self.db.insert((None, "default", "default", 0, "default", "default"))
+        # self.db.insert((None, "default", "default", 0, "default", "default"))
+        self.db.insert((None, "default", "default", 0, "default", "default", "default", "default", "default", "default"))
         reply_token = event["replyToken"]
         send_action_menu(reply_token)
 
@@ -89,10 +89,31 @@ class TocMachine(object):
         reply_token = event["replyToken"]
         send_text_message(reply_token, "再為這筆記錄增添一些註解吧~")
 
+    # def on_enter_description(self, event):
+    #     self.db.updateOneColInLastRow("description", event["message"]["text"])
+    #     formatedTime = datetime.datetime.fromtimestamp(event["timestamp"] / 1000).strftime("%Y-%m-%d")
+    #     self.db.updateOneColInLastRow("time", formatedTime)
+    #     reply_token = event["replyToken"]
+    #     balance = self.db.getBalance()
+    #     send_text_message(reply_token, "目前結餘: " + str(balance))
+    #     self.go_back()
+
     def on_enter_description(self, event):
+        # parsing timestamp
+        timestamp = datetime.datetime.fromtimestamp(event["timestamp"] / 1000)
+        time = timestamp.strftime("%H:%M:%S")
+        date = timestamp.strftime("%Y-%m-%d")
+        year = timestamp.strftime("%Y")
+        month = timestamp.strftime("%m")
+        week = timestamp.strftime("%U")
+
+        # update
         self.db.updateOneColInLastRow("description", event["message"]["text"])
-        formatedTime = datetime.datetime.fromtimestamp(event["timestamp"] / 1000).strftime("%Y-%m-%d")
-        self.db.updateOneColInLastRow("time", formatedTime)
+        self.db.updateOneColInLastRow("time", time)
+        self.db.updateOneColInLastRow("date", date)
+        self.db.updateOneColInLastRow("year", year)
+        self.db.updateOneColInLastRow("month", month)
+        self.db.updateOneColInLastRow("week", week)
         reply_token = event["replyToken"]
         balance = self.db.getBalance()
         send_text_message(reply_token, "目前結餘: " + str(balance))
