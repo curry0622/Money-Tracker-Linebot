@@ -23,6 +23,9 @@ class TocMachine(object):
         except ValueError:
             return False
 
+    def is_going_to_expenseStructure(self, event):
+        return event["message"]["text"] == "這個月的支出結構"
+
     def is_going_to_record(self, event):
         text = event["message"]["text"]
         return text == "記帳"
@@ -54,6 +57,9 @@ class TocMachine(object):
         dateInfoStr = self.db.getDateInfo(dateStr)
         reply_token = event["replyToken"]
         send_text_message(reply_token, dateInfoStr)
+        self.go_back()
+
+    def on_enter_expenseStructure(self, event):
         self.go_back()
 
     def on_enter_record(self, event):

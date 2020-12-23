@@ -479,7 +479,7 @@ def checkMenu():
                                     "action": {
                                         "type": "message",
                                         "label": "收入結構",
-                                        "text": "收入結構"
+                                        "text": "這個月的收入結構"
                                     },
                                     "color": "#ffe89e"
                                 },
@@ -490,7 +490,7 @@ def checkMenu():
                                     "action": {
                                         "type": "message",
                                         "label": "支出結構",
-                                        "text": "支出結構"
+                                        "text": "這個月的支出結構"
                                     },
                                     "color": "#ffe89e"
                                 }
@@ -508,7 +508,7 @@ def checkMenu():
                                     "action": {
                                         "type": "message",
                                         "label": "收支比例",
-                                        "text": "收支比例"
+                                        "text": "這個月的收支比例"
                                     },
                                     "color": "#ffe89e"
                                 },
@@ -519,7 +519,7 @@ def checkMenu():
                                     "action": {
                                         "type": "message",
                                         "label": "各項金額",
-                                        "text": "各項金額"
+                                        "text": "這個月的各項金額"
                                     },
                                     "color": "#ffe89e"
                                 }
