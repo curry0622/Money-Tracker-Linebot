@@ -3,14 +3,9 @@ import os
 from linebot import LineBotApi, WebhookParser
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage, ImageSendMessage
 
-
-from messageTemplate import mainMenu, actionMenu, expenseTypeMenu, checkMenu, imgMsg
+from messageTemplate import mainMenu, actionMenu, expenseTypeMenu, checkMenu
 
 channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
-
-def sendImg(reply_token, url):
-    line_bot_api = LineBotApi(channel_access_token)
-    line_bot_api.reply_message(reply_token, ImageSendMessage(original_content_url=url, preview_image_url=url))
 
 def send_text_message(reply_token, text):
     line_bot_api = LineBotApi(channel_access_token)
@@ -19,7 +14,7 @@ def send_text_message(reply_token, text):
 
 def send_image_message(reply_token, url):
     line_bot_api = LineBotApi(channel_access_token)
-    line_bot_api.reply_message(reply_token, FlexSendMessage("主選單", imgMsg(url)))
+    line_bot_api.reply_message(reply_token, ImageSendMessage(original_content_url=url, preview_image_url=url))
     return "OK"
 
 def send_main_menu(reply_token):

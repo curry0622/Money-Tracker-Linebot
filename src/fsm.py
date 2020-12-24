@@ -7,8 +7,6 @@ from utils import send_text_message,send_image_message, send_action_menu, send_e
 from database import Database
 from plot import plotExpense
 
-import matplotlib.pyplot as plt
-
 class TocMachine(object):
     def __init__(self, **machine_configs):
         self.machine = Machine(model=self, **machine_configs)
@@ -63,13 +61,29 @@ class TocMachine(object):
         self.go_back()
 
     def on_enter_monthExpense(self, event):
+        reply_token = event["replyToken"]
         month = datetime.datetime.now().strftime("%m")
         monthInfo = self.db.getMonthInfo(month)
         expense = self.db.infoParser(monthInfo)
+
+        # draw pie chart
+        # plt.rcParams["font.size"] = 44.0
+        # plt.rcParams["font.sans-serif"] = "Microsoft Yahei"
+        # newValues, newLabels, colors, separate = valuesHandler(expense)
+        # plt.figure(figsize=(20,15))
+        # plt.axis("equal")
+        # plt.pie(newValues, labels = newLabels, colors = colors, explode = separate, autopct = "%1.1f%%")
+        # plt.savefig("./img/month-expense.png", dpi = 30)
+
+        # # upload imgur
+        # CLIENT_ID = "b57c8df3844ca8d"
+        # PATH = "./img/month-expense.png"
+        # url = pyimgur.Imgur(CLIENT_ID).upload_image(PATH, title = "month-expense").link
+
+        # send image message
         url = plotExpense(expense, "month-expense.png")
         print(url)
-        # send_image_message(reply_token, url)
-        send_text_message(reply_token, url)
+        send_image_message(reply_token, url)
         self.go_back()
 
     def on_enter_record(self, event):
