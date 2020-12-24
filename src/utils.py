@@ -3,7 +3,7 @@ import os
 from linebot import LineBotApi, WebhookParser
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage, ImageSendMessage
 
-from messageTemplate import mainMenu, actionMenu, expenseTypeMenu, checkMenu
+from messageTemplate import mainMenu, actionMenu, expenseTypeMenu, incomeTypeMenu, checkMenu
 
 channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
 
@@ -30,6 +30,11 @@ def send_action_menu(reply_token):
 def send_expense_type_menu(reply_token):
     line_bot_api = LineBotApi(channel_access_token)
     line_bot_api.reply_message(reply_token, FlexSendMessage("支出種類選單", expenseTypeMenu))
+    return "OK"
+
+def send_income_type_menu(reply_token):
+    line_bot_api = LineBotApi(channel_access_token)
+    line_bot_api.reply_message(reply_token, FlexSendMessage("收入種類選單", incomeTypeMenu))
     return "OK"
 
 def send_check_menu(reply_token):

@@ -303,6 +303,123 @@ expenseTypeMenu = {
     }
 }
 
+incomeTypeMenu = {
+    "type": "bubble",
+    "hero": {
+        "type": "image",
+        "url": "https://i.imgur.com/JTiY1GF.jpg",
+        "size": "full",
+        "aspectRatio": "20:13",
+        "aspectMode": "cover",
+        "action": {
+            "type": "uri",
+            "uri": "http://linecorp.com/"
+        }
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+            {
+                "type": "text",
+                "text": "🐹Line 記帳包 種類選單",
+                "weight": "bold",
+                "size": "xl",
+                "style": "normal"
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "margin": "lg",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "請點選要記錄哪一類的收入喔~",
+                                "color": "#aaaaaa",
+                                "size": "sm",
+                                "flex": 1
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "footer": {
+        "type": "box",
+        "layout": "horizontal",
+        "spacing": "sm",
+        "contents": [
+            {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "message",
+                            "label": "薪資",
+                            "text": "薪資"
+                        },
+                        "color": "#ffe89e",
+                        "style": "secondary"
+                    },
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "message",
+                            "label": "投資",
+                            "text": "投資"
+                        },
+                        "color": "#ffe89e",
+                        "style": "secondary"
+                    }
+                ],
+                "spacing": "10px"
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "message",
+                            "label": "獎金",
+                            "text": "獎金"
+                        },
+                        "color": "#ffe89e",
+                        "style": "secondary"
+                    },
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "message",
+                            "label": "零用錢",
+                            "text": "零用錢"
+                        },
+                        "color": "#ffe89e",
+                        "style": "secondary"
+                    }
+                ],
+                "spacing": "10px"
+            }
+        ],
+        "flex": 0
+    },
+    "styles": {
+        "footer": {
+            "separator": True
+        }
+    }
+}
+
 def checkMenu():
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     yesterday = (datetime.datetime.now() - datetime.timedelta(1)).strftime("%Y-%m-%d")

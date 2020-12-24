@@ -2,7 +2,7 @@ import datetime
 
 from transitions import Machine
 
-from utils import send_text_message,send_image_message, send_action_menu, send_expense_type_menu, send_check_menu
+from utils import send_text_message,send_image_message, send_action_menu, send_expense_type_menu, send_income_type_menu, send_check_menu
 from database import Database
 from plot import plotExpense
 
@@ -37,7 +37,7 @@ class TocMachine(object):
 
     def is_going_to_type(self, event):
         text = event["message"]["text"]
-        return text == "食" or text == "衣" or text == "住" or text == "行" or text == "育" or text == "樂"
+        return text == "食" or text == "衣" or text == "住" or text == "行" or text == "育" or text == "樂" or text == "薪資" or text == "獎金" or text == "投資" or text == "零用錢"
 
     def is_going_to_value(self, event):
         return True
@@ -80,9 +80,13 @@ class TocMachine(object):
 
     def on_enter_action(self, event):
         # event["message"]["text"] = 支出
-        self.db.updateOneColInLastRow("action", event["message"]["text"])
+        action = event["message"]["text"]
+        self.db.updateOneColInLastRow("action", action)
         reply_token = event["replyToken"]
-        send_expense_type_menu(reply_token)
+        if action == "支出":
+            send_expense_type_menu(reply_token)
+        elif action == "收入":
+            send_income_type_menu(reply_token)
 
 
     def on_enter_type(self, event):
