@@ -5,6 +5,8 @@ from transitions import Machine
 
 from utils import send_text_message, send_action_menu, send_expense_type_menu, send_check_menu
 from database import Database
+from plot import plotExpense
+
 class TocMachine(object):
     def __init__(self, **machine_configs):
         self.machine = Machine(model=self, **machine_configs)
@@ -23,7 +25,7 @@ class TocMachine(object):
         except ValueError:
             return False
 
-    def is_going_to_expenseStructure(self, event):
+    def is_going_to_monthExpense(self, event):
         return event["message"]["text"] == "這個月的支出結構"
 
     def is_going_to_record(self, event):
@@ -58,7 +60,11 @@ class TocMachine(object):
         send_text_message(reply_token, dateInfoStr)
         self.go_back()
 
-    def on_enter_expenseStructure(self, event):
+    def on_enter_monthExpense(self, event):
+        month = datetime.datetime.now().strftime("%m")
+        monthInfo = self.db.getMonthInfo(month)
+        expense = self.db.infoParser(monthInfo)
+        plotExpense(expense, "month-expense.png")
         self.go_back()
 
     def on_enter_record(self, event):

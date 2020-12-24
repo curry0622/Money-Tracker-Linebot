@@ -119,24 +119,59 @@ class Database:
         dateInfoStr += "總收入: " + str(income)
         return dateInfoStr
 
+    def getWeekInfo(self, weekStr):
+        week = datetime.datetime.now().strftime("%U")
+        getStr = "SELECT * FROM " + self.userId + " WHERE week = ?"
+        weekInfo = self.cur.execute(getStr, (weekStr, ))
+        return weekInfo
+
+    def getMonthInfo(self, monthStr):
+        month = datetime.datetime.now().strftime("%m")
+        getStr = "SELECT * FROM " + self.userId + " WHERE month = ?"
+        monthInfo = self.cur.execute(getStr, (monthStr, ))
+        return monthInfo
+
+    def infoParser(self, info):
+        # ["食", "衣", "住", "行", "育", "樂"]
+        expense = [0, 0, 0, 0, 0, 0]
+        for row in info:
+            value = row[3]
+            if row[2] == "食":
+                expense[0] += value
+            elif row[2] == "衣":
+                expense[1] += value
+            elif row[2] == "住":
+                expense[2] += value
+            elif row[2] == "行":
+                expense[3] += value
+            elif row[2] == "育":
+                expense[4] += value
+            elif row[2] == "樂":
+                expense[5] += value
+        return expense
+
 
 if __name__ == "__main__":
-    testDb = Database("testId")
-    testDb.insert((
-        None,
-        "收入",
-        "薪資",
-        120000,
-        "爽啦",
-        "2020/12/20 02:30"
-    ))
-    print("All in db:")
-    for row in testDb.returnAll():
-        print(row[0])
-    print("Last id in db")
-    print(testDb.returnLastId())
-    testDb.updateOneColInLastRow("type", "獎學金")
-    testDb.updateOneColInLastRow("value", 8000)
-    testDb.updateOneColInLastRow("time", "2020/05/20 05:20")
-    testDb.updateOneColInLastRow("description", "第一名")
-    print(testDb.returnLastRow())
+    db = Database("Ufdbef95a2f854faea6f5a4b458e98747")
+    thisWeek = datetime.datetime.now().strftime("%U")
+    weekInfo = db.getWeekInfo(thisWeek)
+    expense = db.infoParser(weekInfo)
+    print(expense)
+    # testDb.insert((
+    #     None,
+    #     "收入",
+    #     "薪資",
+    #     120000,
+    #     "爽啦",
+    #     "2020/12/20 02:30"
+    # ))
+    # print("All in db:")
+    # for row in testDb.returnAll():
+    #     print(row[0])
+    # print("Last id in db")
+    # print(testDb.returnLastId())
+    # testDb.updateOneColInLastRow("type", "獎學金")
+    # testDb.updateOneColInLastRow("value", 8000)
+    # testDb.updateOneColInLastRow("time", "2020/05/20 05:20")
+    # testDb.updateOneColInLastRow("description", "第一名")
+    # print(testDb.returnLastRow())

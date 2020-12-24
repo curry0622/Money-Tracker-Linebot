@@ -114,3 +114,6 @@ ngrok.exe
 
 # db directory
 db/
+
+# image directory
+img/

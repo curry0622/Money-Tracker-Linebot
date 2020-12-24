@@ -21,20 +21,28 @@ def determineColors(values):
             colors[index] = "#ffc100"
     return colors
 
-
-def plotExpense(values):
-    # mpl.rcParams["font.size"] = 16.0
-    # print(mpl.rcParams.keys())
+def plotExpense(values, imgName):
     plt.rcParams["font.size"] = 44.0
     plt.rcParams["font.sans-serif"] = "Microsoft Yahei"
-    labels = ["食", "衣", "住", "行", "育", "樂"]
+    newValues, newLabels, separate = valuesHandler(values)
     colors = determineColors(values)
-    separate = (0.05, 0.05, 0.05, 0.05, 0.05, 0.05)
     plt.figure(figsize=(20,15))
     plt.axis("equal")
-    plt.pie(values, labels = labels, colors = colors, explode = separate, autopct = "%1.1f%%")
+    plt.pie(newValues, labels = newLabels, colors = colors, explode = separate, autopct = "%1.1f%%")
     # plt.show()
-    plt.savefig("./img/test.png", dpi = 30)
+    plt.savefig("./img/" + imgName, dpi = 30)
+
+def valuesHandler(values):
+    labels = ["食", "衣", "住", "行", "育", "樂"]
+    newValues = []
+    newLabels = []
+    separate = ()
+    for i in range(6):
+        if values[i] != 0:
+            newLabels.append(labels[i])
+            newValues.append(values[i])
+            separate += (0.05, )
+    return newValues, newLabels, separate
 
 if __name__ == "__main__":
     # plt.rcParams["font.sans-serif"] = "Microsoft Yahei"
@@ -47,4 +55,4 @@ if __name__ == "__main__":
     # plt.show()
     # plt.savefig("./img/test.png", dpi = 300)
     values = [9000, 1200, 7000, 500, 550, 600]
-    plotExpense(values)
+    plotExpense(values, "test.png")
