@@ -3,9 +3,11 @@ import datetime
 # from transitions.extensions import GraphMachine
 from transitions import Machine
 
-from utils import send_text_message, send_action_menu, send_expense_type_menu, send_check_menu
+from utils import send_text_message,send_image_message, send_action_menu, send_expense_type_menu, send_check_menu
 from database import Database
 from plot import plotExpense
+
+import matplotlib.pyplot as plt
 
 class TocMachine(object):
     def __init__(self, **machine_configs):
@@ -64,7 +66,10 @@ class TocMachine(object):
         month = datetime.datetime.now().strftime("%m")
         monthInfo = self.db.getMonthInfo(month)
         expense = self.db.infoParser(monthInfo)
-        plotExpense(expense, "month-expense.png")
+        url = plotExpense(expense, "month-expense.png")
+        print(url)
+        # send_image_message(reply_token, url)
+        send_text_message(reply_token, url)
         self.go_back()
 
     def on_enter_record(self, event):

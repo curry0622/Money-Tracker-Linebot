@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import pyimgur
 
 from flask import Flask, jsonify, request, abort, send_file
 from dotenv import load_dotenv
@@ -9,7 +10,7 @@ from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 from fsm import TocMachine
-from utils import send_text_message, send_main_menu
+from utils import send_text_message, send_main_menu, send_image_message, sendImg
 
 load_dotenv()
 
@@ -104,6 +105,19 @@ def webhook_handler():
         # check if message is valid or not
         if response == False:
             if machine.state == 'user':
+                # draw pie chart
+                # plt.rcParams["font.size"] = 44.0
+                # plt.rcParams["font.sans-serif"] = "Microsoft Yahei"
+                # plt.figure(figsize=(20,15))
+                # plt.axis("equal")
+                # plt.pie([100,200,300], labels = ['1', '2', '3'], autopct = "%1.1f%%")
+                # plt.savefig("./img/test.png", dpi = 30)
+
+                # CLIENT_ID = "b57c8df3844ca8d"
+                # PATH = "./img/test.png"
+                # url = pyimgur.Imgur(CLIENT_ID).upload_image(PATH, title = "test").link
+                # sendImg(reply_token, url)
+                # send_image_message(reply_token, url)
                 send_main_menu(reply_token)
             elif machine.state == 'record':
                 send_text_message(reply_token, "請輸入支出或收入")

@@ -533,3 +533,20 @@ def checkMenu():
         ]
     }
     return checkMenuTemplate
+
+def imgMsg(url):
+    imgTemplate = {
+        "type": "bubble",
+        "hero": {
+            "type": "image",
+            "url": url,
+            "size": "full",
+            "aspectRatio": "20:13",
+            "aspectMode": "cover",
+            "action": {
+                "type": "uri",
+                "uri": "http://linecorp.com/"
+            }
+        }
+    }
+    return imgTemplate

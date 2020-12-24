@@ -1,6 +1,7 @@
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+import pyimgur
 
 def determineColors(values):
     colors = ["", "", "", "", "", ""]
@@ -22,6 +23,7 @@ def determineColors(values):
     return colors
 
 def plotExpense(values, imgName):
+    # draw pie chart
     plt.rcParams["font.size"] = 44.0
     plt.rcParams["font.sans-serif"] = "Microsoft Yahei"
     newValues, newLabels, separate = valuesHandler(values)
@@ -29,8 +31,13 @@ def plotExpense(values, imgName):
     plt.figure(figsize=(20,15))
     plt.axis("equal")
     plt.pie(newValues, labels = newLabels, colors = colors, explode = separate, autopct = "%1.1f%%")
-    # plt.show()
     plt.savefig("./img/" + imgName, dpi = 30)
+
+    # upload to imgur and get url
+    CLIENT_ID = "b57c8df3844ca8d"
+    PATH = "./img/" + imgName
+    uploadedImg = pyimgur.Imgur(CLIENT_ID).upload_image(PATH, title = "expense")
+    return uploadedImg.link
 
 def valuesHandler(values):
     labels = ["食", "衣", "住", "行", "育", "樂"]
