@@ -3,23 +3,43 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pyimgur
 
+def getColor(index):
+    if index == 5:
+        return "#f7b200"
+    elif index == 4:
+        return "#ffc933"
+    elif index == 3:
+        return "#ffd45c"
+    elif index == 2:
+        return "#ffe291"
+    elif index == 1:
+        return "#ffedba"
+    elif index == 0:
+        return "#e8e1cf"
+
 def determineColors(values):
     colors = ["", "", "", "", "", ""]
     arr = np.array(values)
     sortedIndex = np.argsort(arr)
-    for index in sortedIndex:
-        if(index == 5):
-            colors[index] = "#fff1c7"
-        elif(index == 4):
-            colors[index] = "#ffe494"
-        elif(index == 3):
-            colors[index] = "#ffde7a"
-        elif(index == 2):
-            colors[index] = "#ffd861"
-        elif(index == 1):
-            colors[index] = "#ffce3b"
-        elif(index == 0):
-            colors[index] = "#ffc100"
+    print(arr)
+    print(sortedIndex)
+    for i in range(6):
+        color = getColor(i)
+        index = sortedIndex[i]
+        colors[index] = color
+    # for index in sortedIndex:
+    #     if(index == 5):
+    #         colors[index] = "#fff1c7"
+    #     elif(index == 4):
+    #         colors[index] = "#ffe494"
+    #     elif(index == 3):
+    #         colors[index] = "#ffde7a"
+    #     elif(index == 2):
+    #         colors[index] = "#ffd861"
+    #     elif(index == 1):
+    #         colors[index] = "#ffce3b"
+    #     elif(index == 0):
+    #         colors[index] = "#ffc100"
     return colors
 
 def plotExpense(values, imgName):
