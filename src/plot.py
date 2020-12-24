@@ -52,14 +52,5 @@ def valuesHandler(values):
     return newValues, newLabels, separate
 
 if __name__ == "__main__":
-    # plt.rcParams["font.sans-serif"] = "Microsoft Yahei"
-    # labels = ["食", "衣", "住", "行", "育", "樂"]
-    # values = [9000, 1200, 7000, 500, 550, 600]
-    # colors = ["#ffd754", "#ffe180", "#ffe89e", "#ffedb3", "#fff3cc", "#fff5d6"]
-    # separate = (0.05, 0.05, 0.05, 0.05, 0.05, 0.05)
-    # plt.pie(values, labels = labels, colors = colors, explode = separate, autopct = "%1.1f%%")
-    # plt.axis("equal")
-    # plt.show()
-    # plt.savefig("./img/test.png", dpi = 300)
     values = [9000, 1200, 7000, 500, 550, 600]
     plotExpense(values, "test.png")

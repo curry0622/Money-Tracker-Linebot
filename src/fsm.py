@@ -1,6 +1,5 @@
 import datetime
 
-# from transitions.extensions import GraphMachine
 from transitions import Machine
 
 from utils import send_text_message,send_image_message, send_action_menu, send_expense_type_menu, send_check_menu
@@ -66,20 +65,6 @@ class TocMachine(object):
         monthInfo = self.db.getMonthInfo(month)
         expense = self.db.infoParser(monthInfo)
 
-        # draw pie chart
-        # plt.rcParams["font.size"] = 44.0
-        # plt.rcParams["font.sans-serif"] = "Microsoft Yahei"
-        # newValues, newLabels, colors, separate = valuesHandler(expense)
-        # plt.figure(figsize=(20,15))
-        # plt.axis("equal")
-        # plt.pie(newValues, labels = newLabels, colors = colors, explode = separate, autopct = "%1.1f%%")
-        # plt.savefig("./img/month-expense.png", dpi = 30)
-
-        # # upload imgur
-        # CLIENT_ID = "b57c8df3844ca8d"
-        # PATH = "./img/month-expense.png"
-        # url = pyimgur.Imgur(CLIENT_ID).upload_image(PATH, title = "month-expense").link
-
         # send image message
         url = plotExpense(expense, "month-expense.png")
         print(url)
@@ -89,7 +74,6 @@ class TocMachine(object):
     def on_enter_record(self, event):
         # event["message"]["text"] = 記帳
         self.db = Database(event["source"]["userId"])
-        # self.db.insert((None, "default", "default", 0, "default", "default"))
         self.db.insert((None, "default", "default", 0, "default", "default", "default", "default", "default", "default"))
         reply_token = event["replyToken"]
         send_action_menu(reply_token)
@@ -113,15 +97,6 @@ class TocMachine(object):
         self.db.updateOneColInLastRow("description", "No description")
         reply_token = event["replyToken"]
         send_text_message(reply_token, "再為這筆記錄增添一些註解吧~")
-
-    # def on_enter_description(self, event):
-    #     self.db.updateOneColInLastRow("description", event["message"]["text"])
-    #     formatedTime = datetime.datetime.fromtimestamp(event["timestamp"] / 1000).strftime("%Y-%m-%d")
-    #     self.db.updateOneColInLastRow("time", formatedTime)
-    #     reply_token = event["replyToken"]
-    #     balance = self.db.getBalance()
-    #     send_text_message(reply_token, "目前結餘: " + str(balance))
-    #     self.go_back()
 
     def on_enter_description(self, event):
         # parsing timestamp
