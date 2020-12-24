@@ -381,7 +381,7 @@ incomeTypeMenu = {
                         "style": "secondary"
                     }
                 ],
-                "spacing": "10px"
+                "spacing": "sm"
             },
             {
                 "type": "box",
@@ -408,7 +408,7 @@ incomeTypeMenu = {
                         "style": "secondary"
                     }
                 ],
-                "spacing": "10px"
+                "spacing": "sm"
             }
         ],
         "flex": 0
@@ -445,7 +445,7 @@ def checkMenu():
                     "contents": [
                         {
                             "type": "text",
-                            "text": "🐹Line 記帳包 選單一",
+                            "text": "🐹Line 記帳包 單日查詢",
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -527,10 +527,117 @@ def checkMenu():
             },
             {
                 "type": "bubble",
+                "hero": {
+                    "type": "image",
+                    "url": "https://i.imgur.com/6aiNpIQ.jpg",
+                    "size": "full",
+                    "aspectRatio": "20:13",
+                    "aspectMode": "cover",
+                    "action": {
+                        "type": "uri",
+                        "uri": "http://linecorp.com/"
+                    }
+                },
                 "body": {
                     "type": "box",
                     "layout": "vertical",
-                    "contents": []
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "🐹Line 記帳包 本周查詢",
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "margin": "lg",
+                            "spacing": "sm",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "這裡可以查看這個禮拜的收支狀況",
+                                    "color": "#aaaaaa",
+                                    "size": "sm",
+                                    "flex": 1,
+                                    "decoration": "none"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "請選擇想查看的種類喔~",
+                                    "color": "#aaaaaa",
+                                    "size": "sm",
+                                    "flex": 1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "footer": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "button",
+                                    "style": "secondary",
+                                    "height": "sm",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "收入結構",
+                                        "text": "這個禮拜的收入結構"
+                                    },
+                                    "color": "#ffe89e"
+                                },
+                                {
+                                    "type": "button",
+                                    "style": "secondary",
+                                    "height": "sm",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "支出結構",
+                                        "text": "這個禮拜的支出結構"
+                                    },
+                                    "color": "#ffe89e"
+                                }
+                            ],
+                            "spacing": "sm"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "button",
+                                    "style": "secondary",
+                                    "height": "sm",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "收支比例",
+                                        "text": "這個禮拜的收支比例"
+                                    },
+                                    "color": "#ffe89e"
+                                },
+                                {
+                                    "type": "button",
+                                    "style": "secondary",
+                                    "height": "sm",
+                                    "action": {
+                                        "type": "message",
+                                        "label": "各項金額",
+                                        "text": "這個禮拜的各項金額"
+                                    },
+                                    "color": "#ffe89e"
+                                }
+                            ],
+                            "spacing": "sm"
+                        }
+                    ],
+                    "flex": 0
                 }
             },
             {
@@ -552,7 +659,7 @@ def checkMenu():
                     "contents": [
                         {
                             "type": "text",
-                            "text": "🐹Line 記帳包 選單三",
+                            "text": "🐹Line 記帳包 本月查詢",
                             "weight": "bold",
                             "size": "xl"
                         },
