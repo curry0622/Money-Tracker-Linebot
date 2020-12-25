@@ -36,6 +36,18 @@ class TocMachine(object):
     def is_going_to_monthAll(self, event):
         return event["message"]["text"] == "這個月的各項金額"
 
+    def is_going_to_weekExpense(self, event):
+        return event["message"]["text"] == "這個禮拜的支出結構"
+
+    def is_going_to_weekIncome(self, event):
+        return event["message"]["text"] == "這個禮拜的收入結構"
+
+    def is_going_to_weekRatio(self, event):
+        return event["message"]["text"] == "這個禮拜的收支比例"
+
+    def is_going_to_weekAll(self, event):
+        return event["message"]["text"] == "這個禮拜的各項金額"
+
     def is_going_to_record(self, event):
         text = event["message"]["text"]
         return text == "記帳"
@@ -75,10 +87,22 @@ class TocMachine(object):
         expense, income = self.db.infoParser(monthInfo)
 
         # send image message
-        url = plot(expense, "支出", "month-expense.png")
+        url = plotExpenseOrIncome(expense, "支出", "month-expense.png")
         print(url)
         send_image_message(reply_token, url)
         self.go_back()
+
+    def on_enter_weekExpense(self, event):
+        reply_token = event["replyToken"]
+        week = datetime.datetime.now().strftime("%U")
+        weekInfo = self.db.getWeekInfo(week)
+        expense, income = self.db.infoParser(weekInfo)
+
+        # send image message
+        url = plotExpenseOrIncome(expense, "支出", "week-expense.png")
+        send_image_message(reply_token, url)
+        self.go_back()
+
 
     def on_enter_monthIncome(self, event):
         reply_token = event["replyToken"]
@@ -88,6 +112,18 @@ class TocMachine(object):
 
         # send image message
         url = plotExpenseOrIncome(income, "收入", "month-income.png")
+        print(url)
+        send_image_message(reply_token, url)
+        self.go_back()
+
+    def on_enter_weekIncome(self, event):
+        reply_token = event["replyToken"]
+        week = datetime.datetime.now().strftime("%U")
+        weekInfo = self.db.getWeekInfo(week)
+        expense, income = self.db.infoParser(weekInfo)
+
+        # send image message
+        url = plotExpenseOrIncome(income, "收入", "week-income.png")
         print(url)
         send_image_message(reply_token, url)
         self.go_back()
@@ -104,6 +140,18 @@ class TocMachine(object):
         send_image_message(reply_token, url)
         self.go_back()
 
+    def on_enter_weekRatio(self, event):
+        reply_token = event["replyToken"]
+        week = datetime.datetime.now().strftime("%U")
+        weekInfo = self.db.getWeekInfo(week)
+        expense, income = self.db.infoParser(weekInfo)
+
+        # send image message
+        url = plotRatio(expense, income, "week-ratio.png")
+        print(url)
+        send_image_message(reply_token, url)
+        self.go_back()
+
     def on_enter_monthAll(self, event):
         reply_token = event["replyToken"]
         month = datetime.datetime.now().strftime("%m")
@@ -112,6 +160,18 @@ class TocMachine(object):
 
         # send image message
         url = plotAll(expense, income, "月", "month-all.png")
+        print(url)
+        send_image_message(reply_token, url)
+        self.go_back()
+
+    def on_enter_weekAll(self, event):
+        reply_token = event["replyToken"]
+        week = datetime.datetime.now().strftime("%U")
+        weekInfo = self.db.getWeekInfo(week)
+        expense, income = self.db.infoParser(weekInfo)
+
+        # send image message
+        url = plotAll(expense, income, "周", "week-all.png")
         print(url)
         send_image_message(reply_token, url)
         self.go_back()

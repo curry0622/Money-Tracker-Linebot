@@ -14,7 +14,7 @@ from utils import send_text_message, send_main_menu, send_image_message
 load_dotenv()
 
 machine = TocMachine(
-    states=["user", "check", "dateInfo", "monthExpense", "monthIncome", "monthRatio", "monthAll", "record", "action", "type", "value", "description"],
+    states=["user", "check", "dateInfo", "monthExpense", "monthIncome", "monthRatio", "monthAll", "weekExpense", "weekIncome", "weekRatio", "weekAll", "record", "action", "type", "value", "description"],
     transitions=[
 		{
             "trigger": "advance",
@@ -37,8 +37,20 @@ machine = TocMachine(
         {
             "trigger": "advance",
             "source": "check",
+            "dest": "weekExpense",
+            "conditions": "is_going_to_weekExpense",
+        },
+        {
+            "trigger": "advance",
+            "source": "check",
             "dest": "monthIncome",
             "conditions": "is_going_to_monthIncome",
+        },
+        {
+            "trigger": "advance",
+            "source": "check",
+            "dest": "weekIncome",
+            "conditions": "is_going_to_weekIncome",
         },
         {
             "trigger": "advance",
@@ -49,8 +61,20 @@ machine = TocMachine(
         {
             "trigger": "advance",
             "source": "check",
+            "dest": "weekRatio",
+            "conditions": "is_going_to_weekRatio",
+        },
+        {
+            "trigger": "advance",
+            "source": "check",
             "dest": "monthAll",
             "conditions": "is_going_to_monthAll",
+        },
+        {
+            "trigger": "advance",
+            "source": "check",
+            "dest": "weekAll",
+            "conditions": "is_going_to_weekAll",
         },
         {
             "trigger": "advance",
@@ -82,7 +106,7 @@ machine = TocMachine(
             "dest": "description",
             "conditions": "is_going_to_description",
         },
-        {"trigger": "go_back", "source": ["dateInfo", "monthExpense", "monthIncome", "monthRatio", "monthAll", "description"], "dest": "user"},
+        {"trigger": "go_back", "source": ["dateInfo", "monthExpense", "monthIncome", "monthRatio", "monthAll", "weekExpense", "weekIncome", "weekRatio", "weekAll", "description"], "dest": "user"},
     ],
     initial="user",
     auto_transitions=False,
