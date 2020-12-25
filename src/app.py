@@ -14,7 +14,7 @@ from utils import send_text_message, send_main_menu, send_image_message
 load_dotenv()
 
 machine = TocMachine(
-    states=["user", "check", "dateInfo", "monthExpense", "monthIncome", "monthRatio", "record", "action", "type", "value", "description"],
+    states=["user", "check", "dateInfo", "monthExpense", "monthIncome", "monthRatio", "monthAll", "record", "action", "type", "value", "description"],
     transitions=[
 		{
             "trigger": "advance",
@@ -48,6 +48,12 @@ machine = TocMachine(
         },
         {
             "trigger": "advance",
+            "source": "check",
+            "dest": "monthAll",
+            "conditions": "is_going_to_monthAll",
+        },
+        {
+            "trigger": "advance",
             "source": "user",
             "dest": "record",
             "conditions": "is_going_to_record",
@@ -76,7 +82,7 @@ machine = TocMachine(
             "dest": "description",
             "conditions": "is_going_to_description",
         },
-        {"trigger": "go_back", "source": ["dateInfo", "monthExpense", "monthIncome", "monthRatio", "description"], "dest": "user"},
+        {"trigger": "go_back", "source": ["dateInfo", "monthExpense", "monthIncome", "monthRatio", "monthAll", "description"], "dest": "user"},
     ],
     initial="user",
     auto_transitions=False,

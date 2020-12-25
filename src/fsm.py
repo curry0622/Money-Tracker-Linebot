@@ -4,7 +4,7 @@ from transitions import Machine
 
 from utils import send_text_message,send_image_message, send_action_menu, send_expense_type_menu, send_income_type_menu, send_check_menu
 from database import Database
-from plot import plotExpenseOrIncome, plotRatio
+from plot import plotExpenseOrIncome, plotRatio, plotAll
 
 class TocMachine(object):
     def __init__(self, **machine_configs):
@@ -32,6 +32,9 @@ class TocMachine(object):
 
     def is_going_to_monthRatio(self, event):
         return event["message"]["text"] == "這個月的收支比例"
+
+    def is_going_to_monthAll(self, event):
+        return event["message"]["text"] == "這個月的各項金額"
 
     def is_going_to_record(self, event):
         text = event["message"]["text"]
@@ -97,6 +100,18 @@ class TocMachine(object):
 
         # send image message
         url = plotRatio(expense, income, "month-ratio.png")
+        print(url)
+        send_image_message(reply_token, url)
+        self.go_back()
+
+    def on_enter_monthAll(self, event):
+        reply_token = event["replyToken"]
+        month = datetime.datetime.now().strftime("%m")
+        monthInfo = self.db.getMonthInfo(month)
+        expense, income = self.db.infoParser(monthInfo)
+
+        # send image message
+        url = plotAll(expense, income, "月", "month-all.png")
         print(url)
         send_image_message(reply_token, url)
         self.go_back()
