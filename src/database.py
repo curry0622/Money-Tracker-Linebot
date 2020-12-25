@@ -48,10 +48,11 @@ class Database:
         balance = 0
         all = self.returnAll()
         for row in all:
-            if row[1] == "收入":
-                balance += row[3]
-            elif row[1] == "支出":
-                balance -= row[3]
+            if type(row[3]) is int:
+                if row[1] == "收入":
+                    balance += row[3]
+                elif row[1] == "支出":
+                    balance -= row[3]
         return balance
 
     def getDateInfo(self, dateStr):
@@ -94,6 +95,8 @@ class Database:
     def infoParser(self, info):
         # ["食", "衣", "住", "行", "育", "樂"]
         expense = [0, 0, 0, 0, 0, 0]
+        # ["薪資", "獎金", "投資", "零用錢"]
+        income = [0, 0, 0, 0]
         for row in info:
             value = row[3]
             if row[2] == "食":
@@ -108,7 +111,15 @@ class Database:
                 expense[4] += value
             elif row[2] == "樂":
                 expense[5] += value
-        return expense
+            elif row[2] == "薪資":
+                income[0] += value
+            elif row[2] == "獎金":
+                income[1] += value
+            elif row[2] == "投資":
+                income[2] += value
+            elif row[2] == "零用錢":
+                income[3] += value
+        return expense, income
 
 
 if __name__ == "__main__":

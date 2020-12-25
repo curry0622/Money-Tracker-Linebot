@@ -4,7 +4,7 @@ from transitions import Machine
 
 from utils import send_text_message,send_image_message, send_action_menu, send_expense_type_menu, send_income_type_menu, send_check_menu
 from database import Database
-from plot import plotExpense
+from plot import plot
 
 class TocMachine(object):
     def __init__(self, **machine_configs):
@@ -26,6 +26,9 @@ class TocMachine(object):
 
     def is_going_to_monthExpense(self, event):
         return event["message"]["text"] == "這個月的支出結構"
+
+    def is_going_to_monthIncome(self, event):
+        return event["message"]["text"] == "這個月的收入結構"
 
     def is_going_to_record(self, event):
         text = event["message"]["text"]
@@ -63,10 +66,22 @@ class TocMachine(object):
         reply_token = event["replyToken"]
         month = datetime.datetime.now().strftime("%m")
         monthInfo = self.db.getMonthInfo(month)
-        expense = self.db.infoParser(monthInfo)
+        expense, income = self.db.infoParser(monthInfo)
 
         # send image message
-        url = plotExpense(expense, "month-expense.png")
+        url = plot(expense, "支出", "month-expense.png")
+        print(url)
+        send_image_message(reply_token, url)
+        self.go_back()
+
+    def on_enter_monthIncome(self, event):
+        reply_token = event["replyToken"]
+        month = datetime.datetime.now().strftime("%m")
+        monthInfo = self.db.getMonthInfo(month)
+        expense, income = self.db.infoParser(monthInfo)
+
+        # send image message
+        url = plot(income, "收入", "month-income.png")
         print(url)
         send_image_message(reply_token, url)
         self.go_back()
