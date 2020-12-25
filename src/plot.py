@@ -33,26 +33,6 @@ def determineColors(values, action):
             colors[index] = color
     return colors
 
-def plot(values, action, imgName):
-    # draw pie chart
-    plt.rcParams["font.size"] = 44.0
-    plt.rcParams["font.sans-serif"] = "Microsoft Yahei"
-    if action == "支出":
-        newValues, newLabels, separate = expenseHandler(values)
-    elif action == "收入":
-        newValues, newLabels, separate = incomeHandler(values)
-    colors = determineColors(values, action)
-    plt.figure(figsize=(20,15))
-    plt.axis("equal")
-    plt.pie(newValues, labels = newLabels, colors = colors, explode = separate, autopct = "%1.1f%%")
-    plt.savefig("./img/" + imgName, dpi = 30)
-
-    # upload to imgur and get url
-    CLIENT_ID = "b57c8df3844ca8d"
-    PATH = "./img/" + imgName
-    uploadedImg = pyimgur.Imgur(CLIENT_ID).upload_image(PATH, title = imgName)
-    return uploadedImg.link
-
 def expenseHandler(values):
     labels = ["食", "衣", "住", "行", "育", "樂"]
     newValues = []
@@ -76,6 +56,47 @@ def incomeHandler(values):
             newValues.append(values[i])
             separate += (0.05, )
     return newValues, newLabels, separate
+
+def plotExpenseOrIncome(values, action, imgName):
+    # draw pie chart
+    plt.rcParams["font.size"] = 44.0
+    plt.rcParams["font.sans-serif"] = "Microsoft Yahei"
+    if action == "支出":
+        newValues, newLabels, separate = expenseHandler(values)
+    elif action == "收入":
+        newValues, newLabels, separate = incomeHandler(values)
+    colors = determineColors(values, action)
+    plt.figure(figsize=(20,15))
+    plt.axis("equal")
+    plt.pie(newValues, labels = newLabels, colors = colors, explode = separate, autopct = "%1.1f%%")
+    plt.savefig("./img/" + imgName, dpi = 30)
+
+    # upload to imgur and get url
+    CLIENT_ID = "b57c8df3844ca8d"
+    PATH = "./img/" + imgName
+    uploadedImg = pyimgur.Imgur(CLIENT_ID).upload_image(PATH, title = imgName)
+    return uploadedImg.link
+
+def plotRatio(expense, income, imgName):
+    labels = ["支出", "收入"]
+    values = [sum(expense), sum(income)]
+    colors = ["#ff9b94", "#a1e6aa"]
+    separate = (0.01, 0.01)
+    print(values)
+
+    # draw image
+    plt.rcParams["font.size"] = 44.0
+    plt.rcParams["font.sans-serif"] = "Microsoft Yahei"
+    plt.figure(figsize=(20,15))
+    plt.axis("equal")
+    plt.pie(values, labels = labels, colors = colors, explode = separate, autopct = "%1.1f%%")
+    plt.savefig("./img/" + imgName, dpi = 30)
+
+    # upload to imgur and get url
+    CLIENT_ID = "b57c8df3844ca8d"
+    PATH = "./img/" + imgName
+    uploadedImg = pyimgur.Imgur(CLIENT_ID).upload_image(PATH, title = imgName)
+    return uploadedImg.link
 
 if __name__ == "__main__":
     values = [9000, 1200, 7000, 500, 550, 600]
