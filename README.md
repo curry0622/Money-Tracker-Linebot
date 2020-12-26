@@ -65,6 +65,8 @@ If you choose to see week or month information, there are 4 kinds of information
 
 <img src="https://i.imgur.com/X2jpkID.jpg" width="300">
 
+## FSM graph
+![fsm graph](./fsm.png)
 
 ## Project Setup
 
