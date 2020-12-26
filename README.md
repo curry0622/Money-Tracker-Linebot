@@ -1,17 +1,72 @@
-# TOC Project 2020
+# A Linbot that helps you to keep account
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/dc7fa47fcd809b99d087/maintainability)](https://codeclimate.com/github/NCKU-CCS/TOC-Project-2020/maintainability)
+> If you want to be rich, you need to be accountable of your money first.
 
-[![Known Vulnerabilities](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020/badge.svg)](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020)
+## Introduction
+
+It's an user friendly linebot based on finite state machine.
+
+Its goal is to help you to keep account easily.
+
+Hence, it got lots of buttons to stop you from tiredly typing your transaction information.
+
+## Add me to start your journey !
+
+![Qr code](https://i.imgur.com/RqIcm05.jpg)
+
+Line id : @275yfsdf
+
+## Main menu
+Click `查詢` to ckeck your transaction history, or click `記帳` to record a new transaction.
+
+<img src="https://i.imgur.com/pwigqwM.jpg" width="300">
+
+## 記帳
+When you click `記帳`, it'll show you a menu for you to choose which kind of transaction you want to record (expense or income).
+
+<img src="https://i.imgur.com/suwbYLF.jpg" width="300">
+
+Next, you can choose a specific type of your transaction, `食、衣、住、行、育、樂` in expense, `薪資、獎金、投資、零用錢` in income.
+
+<img src="https://i.imgur.com/NOu0TXD.jpg" width="300">
+
+Then type in the transaction value and some description.
+
+<img src="https://i.imgur.com/lmgfNGe.jpg" width="300">
+
+## 查詢
+When you click `查詢`, it'll show you a menu to pick which kind of history you want to look.
+
+There are three types of history you can look up, which are single day, this week, and this month.
+
+If you choose single day, it'll show you a menu for you to pick which day's information you want to look up.
+
+<img src="https://i.imgur.com/ZbyhP9J.jpg" width="300">
+<img src="https://i.imgur.com/cqq7la2.jpg" width="300">
+
+If you choose to see week or month information, there are 4 kinds of information you can choose.
+
+<img src="https://i.imgur.com/J2iOb7H.jpg" width="300">
+<img src="https://i.imgur.com/1yMMyNG.jpg" width="300">
+
+* `收入結構` -> It'll show you a pie chart of income structure.
+
+<img src="https://i.imgur.com/26mLsVh.jpg" width="300">
+
+* `支出結構` -> It'll show you a pie chart of expense structure.
+
+<img src="https://i.imgur.com/ggjHM7U.jpg" width="300">
+
+* `收支比例` -> It'll show you a pie chart of ratio of expense and income.
+
+<img src="https://i.imgur.com/Tb131Vc.jpg" width="300">
+
+* `各項金額` -> It'll show you a bar chart of every kind of transaction.
+
+<img src="https://i.imgur.com/X2jpkID.jpg" width="300">
 
 
-Template Code for TOC Project 2020
-
-A Line bot based on a finite state machine
-
-More details in the [Slides](https://hackmd.io/@TTW/ToC-2019-Project#) and [FAQ](https://hackmd.io/s/B1Xw7E8kN)
-
-## Setup
+## Project Setup
 
 ### Prerequisite
 * Python 3.6
