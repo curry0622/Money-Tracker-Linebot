@@ -63,18 +63,19 @@ class Database:
         expense = 0
         income = 0
         for info in dateInfo:
-            dateInfoStr += "---------------\n"
-            dateInfoStr += "編號: " + str(index) + "\n"
-            dateInfoStr += "收支: " + info[1] + "\n"
-            dateInfoStr += "種類: " + info[2] + "\n"
-            dateInfoStr += "金額: " + str(info[3]) + "\n"
-            dateInfoStr += "註解: " + info[4] + "\n"
-            dateInfoStr += "時間: " + info[5] + "\n"
-            index += 1
-            if(info[1] == "支出"):
-                expense += info[3]
-            elif(info[1] == "收入"):
-                income += info[3]
+            if type(info[3]) is int:
+                dateInfoStr += "---------------\n"
+                dateInfoStr += "編號: " + str(index) + "\n"
+                dateInfoStr += "收支: " + info[1] + "\n"
+                dateInfoStr += "種類: " + info[2] + "\n"
+                dateInfoStr += "金額: " + str(info[3]) + "\n"
+                dateInfoStr += "註解: " + info[4] + "\n"
+                dateInfoStr += "時間: " + info[5] + "\n"
+                index += 1
+                if(info[1] == "支出"):
+                    expense += info[3]
+                elif(info[1] == "收入"):
+                    income += info[3]
         dateInfoStr += "---------------\n"
         dateInfoStr += "總支出: " + str(expense) + "\n"
         dateInfoStr += "總收入: " + str(income)
