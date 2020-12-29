@@ -1,4 +1,4 @@
-# A Linbot that tracks your money
+# A linebot that tracks your money
 
 > If you want to be rich, you need to be accountable of your money first.
 
