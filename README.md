@@ -1,6 +1,6 @@
 # A linebot that tracks your money
 
-> If you want to be rich, you need to be accountable of your money first.
+> If you want to be rich, you need to be accountable for your money first.
 
 ## Introduction
 
