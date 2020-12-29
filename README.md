@@ -1,4 +1,4 @@
-# A Linbot that helps you to keep account
+# A Linbot that tracks your money
 
 > If you want to be rich, you need to be accountable of your money first.
 
@@ -6,7 +6,7 @@
 
 It's an user friendly linebot based on finite state machine.
 
-Its goal is to help you to keep account easily.
+Its goal is to help you to track your money easily.
 
 Hence, it got lots of buttons to stop you from tiredly typing your transaction information.
 
